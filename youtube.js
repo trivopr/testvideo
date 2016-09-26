@@ -36,6 +36,7 @@
         var player;
         function onYouTubeIframeAPIReady() {
           //...
+		  console.log('READY');
         }
 
         function onPlayerReady(event) {

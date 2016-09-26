@@ -19,16 +19,6 @@
       win = $(window);
 
 
-  // set arrows center on image
-
-  // Private function
-  // function initYoutube () {
-  //   var tag = document.createElement('script');
-  //   tag.src = 'https://www.youtube.com/iframe_api';
-  //   var firstScriptTag = document.getElementsByTagName('script')[0];
-  //   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  //   console.log('INIT YOUTUBE');
-  // }
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -40,49 +30,41 @@
     init: function() {
       var that = this;
 
+      // console.log('options:', this.options.height);
       // initYoutube.call(that);
 
-    var tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      var YT = new YT();
-      var player;
-      function onYouTubeIframeAPIReady() {
-        console.log('API READY');
-        //...
-      }
-
-      function onPlayerReady(event) {
-        console.log(event);
-        player.playVideo();
-      }
-
-      onYouTubeIframeAPIReady();
-      var done = false;
-      function onPlayerStateChange(event) {
-
-        if (event.data === YT.PlayerState.PLAYING && !done) {
-          done = true;
+        var player;
+        function onYouTubeIframeAPIReady() {
+          //...
         }
-      }
+
+        function onPlayerReady(event) {
+          player.playVideo();
+        }
+
+        var done = false;
+        function onPlayerStateChange(event) {
+          if (event.data == YT.PlayerState.PLAYING && !done) {
+            done = true;
+          }
+        }
+
+        function stopVideo() {
+          player.stopVideo();
+        }
 
 
-        // function stopVideo() {
-        //   player.stopVideo();
-        // }
+        $('[data-youtube-control]').on('click', function() {
 
-        $('[data-video-id]').on('click', function() {
-
+          // console.log('options:', this.options);
             $('#player').remove();
 
             $(this).closest('[data-plugin-youtube]').append('<div id="player" class="video-detail"></div>');
 
-            player = YT.Player('player', {
+            player = new YT.Player('player', {
             videoId: $(this).attr('data-video-id'),
-            height: '100%',
-            width: '100%',
+            height: that.options.height + '%',
+            width: that.options.width + '%',
             events: {
               'onReady': onPlayerReady,
               'onStateChange': onPlayerStateChange
@@ -96,6 +78,7 @@
 
       win.on('resize.' + pluginName, function() {
           // code here
+          console.log('resize');
       });
 
     },
@@ -119,19 +102,14 @@
   };
 
   $.fn[pluginName].defaults = {
-    videoId: '[data-video-id]',
-    height: '100%',
-    width: '100%',
-
+    height: '100',
+    width: '100',
   };
 
   $(function() {
-    // $('[data-' + pluginName + ']')[pluginName]();
-
 
     $.getScript( 'https://www.youtube.com/iframe_api' )
       .done(function() {
-        console.log('ok');
          $('[data-' + pluginName + ']')[pluginName]();
       });
   });

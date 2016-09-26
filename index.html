@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+  .video-container {
+    width:560px;
+    height: 315px;
+    margin:0px auto 30px;
+    position: relative;
+    text-align: center;
+  }
+
+  #video_controls_bar{
+    background: #333;
+    padding:10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ccc;
+  }
+
+    .buttonPlay {
+      width: 100px;
+      height: 100px;
+      background: #ccc;
+      top:  50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      z-index: 2;
+    }
+
+    .video-detail {
+      position: absolute;
+      top: 0;
+      z-index: 4;
+      left: 0;
+    }
+</style>
+
+</head>
+<body>
+
+
+  <div class="video-container" data-plugin-video="true">
+    <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+    </div>
+
+
+
+<!--     <div class="youtube">
+        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-youtube-control="true">YOUTUBE</span>
+    </div> -->
+
+    <div class="html5" data-html5-video="true">
+      <video id="my_video" width="100%"  controls="controls">
+        <source src="video.mp4">
+      </video>
+      <span data-video-html5-control="true" class="buttonPlay">HTML5</span>
+    </div>
+
+  </div>
+
+  <div class="video-container" data-plugin-video="true">
+    <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+    </div>
+
+
+
+<!--     <div class="youtube">
+        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-youtube-control="true">YOUTUBE</span>
+    </div>
+ -->
+    <div class="html5">
+      <video id="my_video2" width="100%" controls="controls">
+        <source src="video.mp4">
+      </video>
+      <span data-video-html5-control="true" class="buttonPlay">HTML5</span>
+    </div>
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="video-html5.js"></script>
+  <script type="text/javascript">
+
+    //===========HTML5 VIDEO =================//
+    // $('[data-video-html5-control]').on('click', function() {
+
+    //   $(this).closest('[data-plugin-video]').find('[data-video-background]').fadeOut(300);
+    //   var d = $(this).siblings();
+    //   console.log('d:', d);
+    // });
+
+    // function playPause(btn,vId){
+    //   var vid = document.getElementById(vId);
+    //   if(vid.paused){
+    //     vid.play();
+    //     btn.innerHTML = "Pause";
+    //   } else {
+    //     vid.pause();
+    //     btn.innerHTML = "Play";
+    //   }
+    // }
+
+
+    //===========YOUTUBE=========//
+
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+      function onYouTubeIframeAPIReady() {
+        //...
+      }
+
+      function onPlayerReady(event) {
+        player.playVideo();
+      }
+
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+
+      //==========================//
+      $('[data-youtube-control]').on('click', function(e) {
+
+          $('#player').remove();
+
+          $(this).closest('[data-plugin-video]').append('<div id="player" class="video-detail"></div>');
+
+          player = new YT.Player('player', {
+          videoId: $(this).attr('data-video-id'),
+          height: '100%',
+          width: '100%',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      });
+</script>
+</body>
+</html>

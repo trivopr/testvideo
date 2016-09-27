@@ -5,32 +5,42 @@
   var pluginName = 'html5-video',
       win = $(window);
 
-  PluginHtml5.prototype = {
-    init: function() {
-      var that = this,
-          el= this.element;
+
+  function playPause(videoID) {
+    var vid = document.getElementById(videoID);
+
+    if(vid.paused){
+      vid.play();
+    } else {
+      vid.pause();
+    }
+  }
+
+  function Plugin(element, options) {
+    this.element = $(element);
+    this.options = $.extend({}, $.fn[pluginName].defaults, this.element.data(), options);
+    this.init();
+  }
 
 
-        console.log('el:', el);
-    // $('[data-video-html5-control]').on('click', function() {
-    //   $(this).closest('[data-plugin-video]').find('[data-video-background]').fadeOut(300);
-    //   $(this).fadeOut(300);
-    //   // playPause(this, vidId);
-    // });
+  Plugin.prototype = {
+      init: function() {
+        var that = this,
+            el= this.element;
 
 
 
+      el.find('[data-video-html5-control]').on('click', function() {
 
-    // function playPause(btn,vidId) {
-    //   var vid = document.getElementById(vId);
-    //   if(vid.paused){
-    //     vid.play();
-    //     // btn.innerHTML = "Pause";
-    //   } else {
-    //     vid.pause();
-    //     // btn.innerHTML = "Play";
-    //   }
-    // }
+        var elDataPluginVideo = $(this).closest('[data-plugin-video]');
+        var vidId = elDataPluginVideo.find('video').attr('id');
+
+        elDataPluginVideo.find('[data-video-background]').fadeOut(300);
+        $(this).fadeOut(300);
+
+        playPause.call(this, vidId);
+      });
+
 
       win.on('resize.' + pluginName, function() {
         console.log('resize');
@@ -49,7 +59,7 @@
     return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
-        $.data(this, pluginName, new PluginHtml5(this, options));
+        $.data(this, pluginName, new Plugin(this, options));
       } else if (instance[options]) {
         instance[options](params);
       }

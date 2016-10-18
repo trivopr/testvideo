@@ -5,7 +5,6 @@
   var pluginName = 'html5-video',
       win = $(window);
 
-
   function playPause(videoID) {
     var vid = document.getElementById(videoID);
 
@@ -22,30 +21,26 @@
     this.init();
   }
 
-
   Plugin.prototype = {
-      init: function() {
-        var that = this,
-            el= this.element;
+    init: function() {
+      var that = this,
+          el= this.element;
+      var options = that.options;
 
+      el.find(options.buttonPlayHtml5).on('click', function() {
 
+        var elDataPluginVideo = $(this).closest(options.pluginContainer);
+        var videoId = elDataPluginVideo.find('video').attr('id');
 
-      el.find('[data-video-html5-control]').on('click', function() {
-
-        var elDataPluginVideo = $(this).closest('[data-plugin-video]');
-        var vidId = elDataPluginVideo.find('video').attr('id');
-
-        elDataPluginVideo.find('[data-video-background]').fadeOut(300);
+        elDataPluginVideo.find(options.thumbImageHtml5).fadeOut(300);
         $(this).fadeOut(300);
 
-        playPause.call(this, vidId);
+        playPause.call(this, videoId);
       });
-
 
       win.on('resize.' + pluginName, function() {
         console.log('resize');
       });
-
     },
 
     destroy: function() {
@@ -67,7 +62,9 @@
   };
 
   $.fn[pluginName].defaults = {
-
+      buttonPlayHtml5: '[data-video-control]',
+      thumbImageHtml5: '[data-video-background]',
+      pluginContainer: '[data-plugin-video]'
   };
 
 

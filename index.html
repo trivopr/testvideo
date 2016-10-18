@@ -6,11 +6,11 @@
   .video-container {
     width:100%;
     max-width: 560px;
-    /* height: 315px; */
+    height: 315px;
     margin:0px auto 30px;
     position: relative;
     text-align: center;
-    /* overflow: hidden; */
+    overflow: hidden;
   }
 
     .buttonPlay {
@@ -34,6 +34,10 @@
     video {
        width:100%;
        height:auto;
+       margin-bottom: 50px;
+    }
+    .html5Video {
+      padding-bottom: 10%;
     }
 </style>
 
@@ -42,111 +46,45 @@
 
 
   <div class="video-container" data-plugin-video="true">
-    <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+
+    <div class="youtube" data-plugin-youtube="true">
+        <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-youtube-background="true">
+        </div>
+        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-video-youtube-control="true">YOUTUBE</span>
     </div>
 
-
-
-<!--     <div class="youtube" data-plugin-youtube="true">
-        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-youtube-control="true">YOUTUBE</span>
-    </div> -->
-
-    <div class="html5" data-html5-video="true">
+<!--     <div class="html5Video" data-html5-video="true">
+      <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+      </div>
       <video id="my_video" controls="controls">
         <source src="video.mp4">
       </video>
-      <span data-video-html5-control="true" class="buttonPlay">HTML5</span>
-    </div>
+      <span data-video-control="true" class="buttonPlay">HTML5</span>
+    </div> -->
 
   </div>
 
   <div class="video-container" data-plugin-video="true">
-    <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+
+
+    <div class="youtube" data-plugin-youtube="true">
+        <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-youtube-background="true">
+        </div>
+        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-video-youtube-control="true">YOUTUBE</span>
     </div>
 
-
-<!--     <div class="youtube" data-plugin-youtube="true">
-        <span class="buttonPlay" data-video-id="wnn5reI5htk" data-youtube-control="true">YOUTUBE</span>
-    </div> -->
-
-
-
-    <div class="html5" data-html5-video="true">
+<!--     <div class="html5" data-html5-video="true">
+      <div style="background-image: url('sflahave.jpg'); width: 100%; height:100%; background-size: cover; background-position: center; position: absolute;top:0; z-index: 1;" data-video-background="true">
+      </div>
       <video id="my_video2" controls="controls">
         <source src="video.mp4">
       </video>
-      <span data-video-html5-control="true" class="buttonPlay">HTML5</span>
-    </div>
+      <span data-video-control="true" class="buttonPlay">HTML5</span>
+    </div> -->
 
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="video-html5.js"></script>
   <script src="youtube.js"></script>
-  <script type="text/javascript">
-
-    //===========HTML5 VIDEO =================//
-    // $('[data-video-html5-control]').on('click', function() {
-
-    //   $(this).closest('[data-plugin-video]').find('[data-video-background]').fadeOut(300);
-    //   $(this).fadeOut(300);
-    // });
-
-    // function playPause(btn,vId){
-    //   var vid = document.getElementById(vId);
-    //   if(vid.paused){
-    //     vid.play();
-    //     // btn.innerHTML = "Pause";
-    //   } else {
-    //     vid.pause();
-    //     // btn.innerHTML = "Play";
-    //   }
-    // }
-
-
-    //===========YOUTUBE=========//
-
-      // var tag = document.createElement('script');
-
-      // tag.src = "https://www.youtube.com/iframe_api";
-      // var firstScriptTag = document.getElementsByTagName('script')[0];
-      // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // var player;
-      // function onYouTubeIframeAPIReady() {
-      //   //...
-      // }
-
-      // function onPlayerReady(event) {
-      //   player.playVideo();
-      // }
-
-      // var done = false;
-      // function onPlayerStateChange(event) {
-      //   if (event.data == YT.PlayerState.PLAYING && !done) {
-      //     done = true;
-      //   }
-      // }
-      // function stopVideo() {
-      //   player.stopVideo();
-      // }
-
-      //==========================//
-      // $('[data-youtube-control]').on('click', function(e) {
-
-      //     $('#player').remove();
-
-      //     $(this).closest('[data-plugin-video]').append('<div id="player" class="video-detail"></div>');
-
-      //     player = new YT.Player('player', {
-      //     videoId: $(this).attr('data-video-id'),
-      //     height: '100%',
-      //     width: '100%',
-      //     events: {
-      //       'onReady': onPlayerReady,
-      //       'onStateChange': onPlayerStateChange
-      //     }
-      //   });
-      // });
-</script>
 </body>
 </html>

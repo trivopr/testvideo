@@ -1,6 +1,6 @@
 
 /**
- *  @name Plugin Format
+ *  @name Plugin VIDEO YOUTUBE
  *  @description description
  *  @version 1.0
  *  @options
@@ -14,11 +14,8 @@
 ;(function($, window, undefined) {
   'use strict';
 
-
   var pluginName = 'plugin-youtube',
       win = $(window);
-
-
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -29,59 +26,62 @@
   Plugin.prototype = {
     init: function() {
       var that = this;
+      var player,
+          el = that.element,
+          options = that.options;
 
-      // console.log('options:', this.options.height);
-      // initYoutube.call(that);
+      // function onYouTubeIframeAPIReady() {
+       //  console.log('READY');
+      // }
 
-        var player;
-        function onYouTubeIframeAPIReady() {
-          //...
-		  console.log('READY');
+      function onPlayerReady(event) {
+        player.playVideo();
+      }
+
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING && !done) {
+          done = true;
         }
+      }
 
-        function onPlayerReady(event) {
-          player.playVideo();
-        }
+      function stopVideo() {
+        player.stopVideo();
+      }
 
-        var done = false;
-        function onPlayerStateChange(event) {
-          if (event.data == YT.PlayerState.PLAYING && !done) {
-            done = true;
+      el.find(options.buttonPlay).on('click.' + pluginName, function() {
+        var self = $(this);
+
+          that.whenShowVideo.call(that);
+
+          var elPluginName = self.closest('[data-' + pluginName + ']');
+          elPluginName.append('<div id="player" class="video-detail"></div>');
+
+          player = new YT.Player('player', {
+          videoId: self.attr('data-video-id'),
+          height: '100%',
+          width: '100%',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
           }
-        }
-
-        function stopVideo() {
-          player.stopVideo();
-        }
-
-
-        $('[data-youtube-control]').on('click', function() {
-
-          // console.log('options:', this.options);
-            $('#player').remove();
-
-            $(this).closest('[data-plugin-youtube]').append('<div id="player" class="video-detail"></div>');
-
-            player = new YT.Player('player', {
-            videoId: $(this).attr('data-video-id'),
-            height: that.options.height + '%',
-            width: that.options.width + '%',
-            events: {
-              'onReady': onPlayerReady,
-              'onStateChange': onPlayerStateChange
-            }
-          });
         });
-
-
-
-      /*======================================*/
+      });
 
       win.on('resize.' + pluginName, function() {
           // code here
           console.log('resize');
       });
+    },
 
+    whenShowVideo: function() {
+      var that = this;
+      var el = that.element,
+          options = that.options;
+
+      // Remove other Video Player and Show thumbnail
+      $('#player').remove();
+      el.find(options.videoBackground).fadeIn(300).end().find(options.buttonPlay).fadeIn(300);
     },
 
     destroy: function() {
@@ -103,8 +103,8 @@
   };
 
   $.fn[pluginName].defaults = {
-    height: '100',
-    width: '100',
+      buttonPlay: '[data-video-youtube-control]',
+      videoBackground: '[data-video-youtube-background]'
   };
 
   $(function() {
